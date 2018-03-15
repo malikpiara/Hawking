@@ -1,3 +1,5 @@
+// TODO We need a new "output.txt" file to be created when there none
+
 import java.io.*;
 import java.awt.*;
 import java.io.IOException;
@@ -6,32 +8,27 @@ import javax.swing.*;
 public class Frame {
 	public static void main (String[] args) {
 
-		try {
-			FileReader reader = new FileReader("output.txt");
-			BufferedReader br = new BufferedReader(reader);
+		// Creates and sets up a new window
+		JFrame frame = new JFrame();
+		frame.setTitle("Everbrain");
+		frame.setSize(700, 400);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			String text;
-			// Reads lines from .txt file until it reaches null
-			while ((text = br.readLine()) != null) {
-				System.out.println(text);
+		JTextArea textArea = new JTextArea();	// Rows + Columns not specified
+		frame.getContentPane().add(textArea);
+
+		try {
+			BufferedReader input = new BufferedReader(new FileReader("output.txt"));
+
+			String line;
+			while((line = input.readLine()) != null)
+			{
+				textArea.read(input, null);
 			}
 
-			// Creates new frame.
-			JFrame frame = new JFrame();
-			
-			JTextArea textArea = new JTextArea(30, 50);
-			
-			textArea.read(br, "output.txt");
-			br.close();
+			input.close();
 
-			//frame.getContentPane().setBackground(Color.WHITE);
-		//	frame.setSize(800,600);
-			frame.getContentPane().add(textArea, BorderLayout.CENTER);
-		    frame.pack();
-			frame.setVisible(true);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
